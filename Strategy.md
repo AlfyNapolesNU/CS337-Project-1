@@ -1,8 +1,10 @@
-###3 main Steps
+### 3 main Steps
 1. Preprocessing tweets
-  a. Removing emojis
-  b. Removing URLs
-  c. Non-english language (translate if significant amount?) 
-  d. Lowercase 
-  f. any other steps add here
-  e. return text, timestamp (indexed dataframe) 
+    *Removing emojis
+    *Removing URLs
+    *Non-english language (translate if significant amount?) 
+    *Lowercase 
+    *any other steps add here
+    *return text, timestamp (indexed dataframe)
+3. Parsing tweets
+4. Aggregation/voting system
