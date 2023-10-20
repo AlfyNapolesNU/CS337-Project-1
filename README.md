@@ -7,8 +7,8 @@
 4. Nominees, mapped to awards*
 5. Winners, mapped to awards*
 
-*_These will default to using a hardcoded list of the awards to avoid penalizing you for
-cascading error. _
+* 
+_These will default to using a hardcoded list of the awards to avoid penalizing you for cascading error._
 
 _When mining award names specifically, you cannot hardcode parts of these names in your solution with the only exception of the word "Best."_
 
