@@ -12,8 +12,9 @@ def preproccessing(json_file="gg2013.json"):
 
     # cleaning up the text for any not standard language characters
     data_frame["text"] = (
-        data_frame["text"].str.replace("[^a-zA-Z\s]", "").str.lower().str.strip()
-    )
+        data_frame["text"].str.replace("[^a-zA-Z\\s]", "", regex=True).str.lower().str.strip()
+        )
+    
 
     # keep only tweets in english
     with open("100CommonWords.txt", 'r') as file:
@@ -34,7 +35,7 @@ def preproccessing(json_file="gg2013.json"):
     data_frame.dropna(subset=['text'], inplace=True)
 
     # save data frame to json so we don't have to preprocess over and over
-    new_file = json_file + "_preprocessed"
+    new_file = json_file.split(".")[0] + "_preprocessed.json"
     data_frame.to_json(new_file, orient='records', lines=True)
     return data_frame
 
