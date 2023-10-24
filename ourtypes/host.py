@@ -75,12 +75,12 @@ class Hosts:
                 return
     
     def total_votes(self):
-        """vote_counter = {}
-        for host in self.hosts.values():
-            assert isinstance(host,Person)
-            vote_counter[host.name] = host.voteCount()"""
+        """Return list sorted by vote counts
+        type --> [(name, votes), (name, votes) ...] in descending order
+        """
         
-        vote_counter = sorted(self.hosts, key=lambda x: x.voteCount())
+        vote_counter = [(ele[1].name, ele[1].voteCount()) for ele in self.hosts.items()]
+        vote_counter = sorted(vote_counter, key=lambda x: x[1], reverse=True)
         return vote_counter
 
     def __str__(self):
