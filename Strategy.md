@@ -11,6 +11,7 @@
 
 golden globes or goldenglobes
 
+Everything is lowercase!!!
 
 sorting dict??
 - alphabetrical to speed up search?
@@ -18,5 +19,3 @@ retweets? = rt username
 bm25 to check winners
 type checking nominees and winners against each other and imbd
 misspelled names
-
-use lower case name with no spaces as dict keys to avoid issues when name has no spaces

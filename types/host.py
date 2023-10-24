@@ -1,3 +1,5 @@
+from person import Person
+
 class Hosts:
 
     def __init__(self):
@@ -6,16 +8,17 @@ class Hosts:
         self.hosts = {}
     
 
-    def __checkName__(self, name):
-        """Check for name when single string
-        - could be combined first/last or just first or just last
-        """
-        for k in self.hosts.keys():
-            # case just first/last
-            if 
+    def __add(self, name, name_list, name_key):
+        #we can delete later but just for checks
+        assert name == name.lower().strip(), "name should be lowercase!"
+        assert len(name_list) >= 2, "need at least first and last name"
+        assert name_key == name.replace(" ",""), "incorrect syntax for key, no spaces!"
+        assert self.hosts.get(name_key) == None, "should NOT be in dict already"
+
+        #ok you are good, add to dict
+        self.hosts[name_key] = Person(name)
 
 
-    
     def add_host(self, name):
         """ Public method 
         - takes a host name as a string & checks for host name in dictionary of hosts
@@ -25,21 +28,49 @@ class Hosts:
         """
         if not isinstance(name, str):
             #remove whitespace
-            name = name.strip()
-            #split by whitespace: firstname, lastname or firstname & capitalize
-            name_list = [x.capitalize() for x in name.split(" ")]
+            name = name.strip().lower()
+            #name key for dict - lowercase, no spaces
+            name_key = name.replace(" ", "")
             
-            #match by number of names
+            #first thing we will check is if it is already in our dict
+            host = self.hosts.get(name_key)
+            if host is not None:
+                #this better pass
+                assert isinstance(host, Person)
+                #yay! just update it 
+                host.voteForMe()
+                return #done
+
+            #hmmm... it is not in our dict
+            #let's check validity of name: FirstName LastName ... 
+            name_list = name.split(" ")
+
             match len(name_list):
                 case 1:
-                    #only first or last name or not seperated by white space
-                    name = name[0]
-                    #if issue add algorithm for splitting name?
+                    #only first or last name since key has no whitespace
+                    assert name == name_key, "just a check"
+                    self.__handleOneName(name)
                 case 2:
-                    #first and last name
-                    name = " ".join(name_list)
-                    #add to dict, if not present default to 1 vote
-                    self.hosts[name] = self.hosts.get(name, 0) + 1
-                
+                    #formatted correctly, add to dict
+                    self.__add(name, name_list, name_key)
+                    return #done
                 case _:
-                    #other?
+                    #here we would want to check for incorrect parsing if names aren't two words
+                    return
+    
+    def __handleOneName(self, name):
+        """
+        Only enter if name passed originally has no whitespace
+        & is not in dict already, 
+        maybe just first name or last name or nickname?
+        i.e. Leo for Leonardo Decaprio
+        """
+        for k in self.hosts.keys():
+            if name in k:
+                #ok so some partial matching here, let's tenatively vote
+                host = self.hosts.get(k)
+                #this better pass
+                assert isinstance(host, Person)
+                #yay! just update it 
+                host.maybeVoteForMe()
+                return #done

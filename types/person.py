@@ -10,19 +10,19 @@ class Person:
     def __init__(self, name):
         #check its a string
         assert isinstance(name, str), "name is not type str"
+        #don't want to do this twice
+        assert name == name.strip().lower(), "strip and lowercase name pls!"
 
-        #remove whitespace
-        name = name.strip()
         #split by whitespace
-        name_list = [x.capitalize() for x in name.split(" ")]
+        name_list = [x for x in name.split(" ")]
 
         #check we have first and last name 
         assert len(name_list) >= 2, "pls format name as firstName lastName ..."
 
-        self.name = " ".join(name_list)
+        self.name = name
         self.name_list = name_list
         self.votes = 1
-        self.name_key = "".join(self.name_list).lower()
+        self.name_key = "".join(self.name_list)
 
     #increment vote count
     def voteForMe(self):
@@ -34,7 +34,7 @@ class Person:
     def voteCount(self):
         return self.votes
     
-    #define a generator for this class 
+    #define a generator for this class
     def iterPerson(self):
         i = 0
         while i < len(self.name_list):
@@ -47,3 +47,7 @@ class Person:
     
     def typeCheck(self):
         return "Not Implemented"
+    
+    def __str__(self):
+        #maybe change this?
+        return f'Name: {self.name}, Votes: {self.votes}'
