@@ -8,3 +8,5 @@
     * return text, timestamp (indexed dataframe)
 3. Parsing tweets
 4. Aggregation/voting system
+
+golden globes or goldenglobes
