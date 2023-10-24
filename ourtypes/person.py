@@ -49,5 +49,4 @@ class Person:
         return "Not Implemented"
     
     def __str__(self):
-        #maybe change this?
         return f'Name: {self.name}, Votes: {self.votes}'
