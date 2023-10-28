@@ -19,3 +19,8 @@ retweets? = rt username
 bm25 to check winners
 type checking nominees and winners against each other and imbd
 misspelled names
+
+
+we will map presenters, winners, nominees to an object Award
+
+all tweets are lowercase for regex!

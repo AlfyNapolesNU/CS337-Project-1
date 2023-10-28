@@ -4,7 +4,7 @@ class Hosts:
 
     def __init__(self):
         #k: host name: lower case, no spaces
-        #v: object of class Person
+        #v: object of class Person or list of Person
         self.hosts = {}
     
 
@@ -73,6 +73,9 @@ class Hosts:
             case _:
                 #here we would want to check for incorrect parsing if names aren't two words
                 return
+    
+    def vote_cohost(self):
+        return 
     
     def total_votes(self):
         """Return list sorted by vote counts

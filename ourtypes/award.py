@@ -1,14 +1,30 @@
-import winner, presenter, nominee, host
+import nominee, host
 
 class Award:
     """
     We need some type constaints here
+    need to get
+    - presenters 
+    - nominees
+    - winners
     
-    """
-    nominees = []
+    Types
+    each is a dict
+    k = lowercasename no spaces
+    v = object of type Person
 
-    def __init__(self, name, winner_type=None):
-        self.name = name
+    winner_type = Person or Thing (movie, tv show, etc.)
+    """
+    
+
+
+    def __init__(self, award_name, winner_type=None):
+        #dictionaries to store nominees, winners, presenters
+        self.nominees, self.winners, self.presenters = {}, {}, {}
+        
+        #award name
+        self.award_name = award_name
+        self.winner_type = winner_type
 
     def add_winner(self, winner):
         self.winner = winner.name
