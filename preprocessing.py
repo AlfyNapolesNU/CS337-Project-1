@@ -12,7 +12,7 @@ def preproccessing(json_file="gg2013.json"):
 
     # cleaning up the text for any not standard language characters
     data_frame["text"] = (
-        data_frame["text"].str.replace("[^a-zA-Z\\s]", "", regex=True).str.lower().str.strip()
+        data_frame["text"].str.replace("[^a-zA-Z-\\s]", "", regex=True).str.lower().str.strip()
         )
     
 
