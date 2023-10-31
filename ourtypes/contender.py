@@ -23,18 +23,18 @@ class Contender:
         self.name_list = name_list
         self.votes = 1
         self.name_key = "".join(self.name_list)
-        self.cohosts = {}
+        self.cocontenders = {}
 
-    def voteCoHost(self, cohost):
-        assert isinstance(cohost, str)
-        self.cohosts[cohost] = self.cohosts.get(cohost, 0) + 1
+    def voteCoContender(self, cocontender):
+        assert isinstance(cocontender, str)
+        self.cocontenders[cocontender] = self.cocontenders.get(cocontender, 0) + 1
     
-    def getTopCoHost(self):
-        if len(self.cohosts)==0:
+    def getTopCoContender(self):
+        if len(self.cocontenders)==0:
             return None
         else:
-            sortedCohosts = sorted(self.cohosts.items(), key=lambda item: item[1], reverse=True)
-            return sortedCohosts[0]
+            sortedcocontenders = sorted(self.cocontenders.items(), key=lambda item: item[1], reverse=True)
+            return sortedcocontenders[0]
 
     #increment vote count
     def voteForMe(self):
@@ -61,9 +61,9 @@ class Contender:
         return "Not Implemented"
     
     def __str__(self):
-        if len(self.cohosts) == 0:
+        if len(self.cocontenders) == 0:
             return f'Name: {self.name}, Votes: {self.votes}'
         else:
-            ch = self.getTopCoHost()
-            return f'Name: {self.name}, Votes: {self.votes}, Cohost: {ch[0]}, Cohost Votes: {ch[1]}'
+            ch = self.getTopCoContender()
+            return f'Name: {self.name}, Votes: {self.votes}, cocontender: {ch[0]}, cocontender Votes: {ch[1]}'
             

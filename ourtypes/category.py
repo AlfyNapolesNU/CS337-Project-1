@@ -2,10 +2,13 @@ from ourtypes.contender import Contender
 
 class Category:
 
-    def __init__(self):
+    def __init__(self, type):
         #k: contender name: lower case, no spaces
         #v: object of class Contender
         self.contenders = {}
+        possible_types = ("hosts", "nominees", "presenters", "winners")
+        assert type in possible_types
+        self.type = type
     
 
     def __add(self, name, name_list, name_key):
@@ -36,9 +39,10 @@ class Category:
                 assert isinstance(contender, Contender)
                 #yay! just update it 
                 contender.maybeVoteForMe()
-                return #done
+                return True, contender
+        return False, None
 
-    def vote_contender(self, name, cohost=None):
+    def vote_contender(self, name, cocontender=None):
         """ Public method 
         - takes a contender name as a string & checks for contender name in dictionary of contenders
         - adds new contender to dict with 1 vote OR increments number votes
@@ -49,12 +53,13 @@ class Category:
         #name key for dict - lowercase, no spaces
         name_key = name.replace(" ", "")
         
-        if cohost is not None:
-            cohostExist = True
-            cohost=cohost.replace(" ","")
+        if cocontender is not None:
+            assert self.type != "winners"
+            cocontenderExist = True
+            cocontender=cocontender.replace(" ","")
 
         else:
-            cohostExist = False
+            cocontenderExist = False
 
         #first thing we will check is if it is already in our dict
         contender = self.contenders.get(name_key)
@@ -63,8 +68,8 @@ class Category:
             assert isinstance(contender, Contender)
             #yay! just update it 
             contender.voteForMe()
-            if cohostExist:
-                contender.voteCoHost(cohost)
+            if cocontenderExist:
+                contender.voteCoContender(cocontender)
             return #done
 
         #hmmm... it is not in our dict
@@ -75,13 +80,15 @@ class Category:
             case 1:
                 #only first or last name since key has no whitespace
                 assert name == name_key, "just a check"
-                self.__handleOneName(name)
+                found, contender = self.__handleOneName(name)
+                if cocontenderExist & found:
+                    contender.voteCoContender(cocontender)
                 return
             case 2:
                 #formatted correctly, add to dict
                 contender = self.__add(name, name_list, name_key)
-                if cohostExist:
-                    contender.voteCoHost(cohost)
+                if cocontenderExist:
+                    contender.voteCoContender(cocontender)
                 return #done
             case _:
                 #here we would want to check for incorrect parsing if names aren't two words
@@ -93,7 +100,7 @@ class Category:
         type --> [(name, votes), (name, votes) ...] in descending order
         """
         
-        vote_counter = [(ele[1].name, ele[1].voteCount(), ele[1].getTopCoHost()) for ele in self.contenders.items()]
+        vote_counter = [(ele[1].name, ele[1].voteCount(), ele[1].getTopCoContender()) for ele in self.contenders.items()]
         vote_counter = sorted(vote_counter, key=lambda x: x[1], reverse=True)
         return vote_counter
 
