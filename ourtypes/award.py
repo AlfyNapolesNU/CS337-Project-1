@@ -27,10 +27,8 @@ class Award:
         self.winner_type = winner_type
 
     def add_winner(self, winner):
-        self.winner = winner.name
+        winner_key = winner.replace(" ", "")
     
-    def add_host(self, host):
-        self.host = host.name
 
     def add_nominee(self, nominee):
         if type(nominee) == "str":
@@ -40,5 +38,15 @@ class Award:
                 self.nominees.append(ele)
 
     def add_presenter(self, presenter):
-        self.presenter = presenter
+        assert isinstance(presenter, str)
+        presenter_key = presenter.replace(" ", "")
+        presenter = self.presenters.get(presenter_key)
+
+        #check if already exists
+        if presenter is not None:
+            assert isinstance(presenter, Person)
+            presenter.voteForMe()
+            return 
+
+        
 

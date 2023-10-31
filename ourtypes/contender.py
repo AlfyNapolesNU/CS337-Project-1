@@ -1,5 +1,5 @@
-class Person:
-    """this could be a winner, host, or nominee
+class Contender:
+    """this could be a winner, host, or nominee, presenter
     Fields:
         - name: str
         - name_list: list of str, length >= 2
@@ -47,7 +47,7 @@ class Person:
         return self.votes
     
     #define a generator for this class
-    def iterPerson(self):
+    def iterContender(self):
         i = 0
         while i < len(self.name_list):
             yield self.name_list[i]

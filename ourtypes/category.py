@@ -1,11 +1,11 @@
-from ourtypes.person import Person
+from ourtypes.contender import Contender
 
-class Hosts:
+class Category:
 
     def __init__(self):
-        #k: host name: lower case, no spaces
-        #v: object of class Person or list of Person
-        self.hosts = {}
+        #k: contender name: lower case, no spaces
+        #v: object of class Contender
+        self.contenders = {}
     
 
     def __add(self, name, name_list, name_key):
@@ -13,13 +13,13 @@ class Hosts:
         assert name == name.lower().strip(), "name should be lowercase!"
         assert len(name_list) >= 2, "need at least first and last name"
         assert name_key == name.replace(" ",""), "incorrect syntax for key, no spaces!"
-        assert self.hosts.get(name_key) == None, "should NOT be in dict already"
+        assert self.contenders.get(name_key) == None, "should NOT be in dict already"
 
         #ok you are good, add to dict
-        host = Person(name)
-        self.hosts[name_key] = host
+        contender = Contender(name)
+        self.contenders[name_key] = contender
 
-        return host
+        return contender
 
     def __handleOneName(self, name):
         """
@@ -28,45 +28,43 @@ class Hosts:
         maybe just first name or last name or nickname?
         i.e. Leo for Leonardo Decaprio
         """
-        for k in self.hosts.keys():
+        for k in self.contenders.keys():
             if name in k:
                 #ok so some partial matching here, let's tenatively vote
-                host = self.hosts.get(k)
+                contender = self.contenders.get(k)
                 #this better pass
-                assert isinstance(host, Person)
+                assert isinstance(contender, Contender)
                 #yay! just update it 
-                host.maybeVoteForMe()
+                contender.maybeVoteForMe()
                 return #done
 
-    def vote_host(self, name, cohost=None):
+    def vote_contender(self, name, cohost=None):
         """ Public method 
-        - takes a host name as a string & checks for host name in dictionary of hosts
-        - adds new host to dict with 1 vote OR increments number votes
+        - takes a contender name as a string & checks for contender name in dictionary of contenders
+        - adds new contender to dict with 1 vote OR increments number votes
         - handle only first name, last name or name not seperated? nicknames?
         - success code?
         """
         assert isinstance(name, str)
-        #remove whitespace
-        name = name.strip()
         #name key for dict - lowercase, no spaces
         name_key = name.replace(" ", "")
         
         if cohost is not None:
             cohostExist = True
-            cohost=cohost.strip().replace(" ","")
+            cohost=cohost.replace(" ","")
 
         else:
             cohostExist = False
 
         #first thing we will check is if it is already in our dict
-        host = self.hosts.get(name_key)
-        if host is not None:
+        contender = self.contenders.get(name_key)
+        if contender is not None:
             #this better pass
-            assert isinstance(host, Person)
+            assert isinstance(contender, Contender)
             #yay! just update it 
-            host.voteForMe()
+            contender.voteForMe()
             if cohostExist:
-                host.voteCoHost(cohost)
+                contender.voteCoHost(cohost)
             return #done
 
         #hmmm... it is not in our dict
@@ -81,9 +79,9 @@ class Hosts:
                 return
             case 2:
                 #formatted correctly, add to dict
-                host = self.__add(name, name_list, name_key)
+                contender = self.__add(name, name_list, name_key)
                 if cohostExist:
-                    host.voteCoHost(cohost)
+                    contender.voteCoHost(cohost)
                 return #done
             case _:
                 #here we would want to check for incorrect parsing if names aren't two words
@@ -95,11 +93,11 @@ class Hosts:
         type --> [(name, votes), (name, votes) ...] in descending order
         """
         
-        vote_counter = [(ele[1].name, ele[1].voteCount(), ele[1].getTopCoHost()) for ele in self.hosts.items()]
+        vote_counter = [(ele[1].name, ele[1].voteCount(), ele[1].getTopCoHost()) for ele in self.contenders.items()]
         vote_counter = sorted(vote_counter, key=lambda x: x[1], reverse=True)
         return vote_counter
 
     def __str__(self):
-        return "\n".join([str(x) for x in self.hosts.values()])
+        return "\n".join([str(x) for x in self.contenders.values()])
         
 
