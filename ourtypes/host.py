@@ -18,6 +18,7 @@ class Hosts:
         #ok you are good, add to dict
         host = Person(name)
         self.hosts[name_key] = host
+
         return host
 
     def __handleOneName(self, name):
@@ -53,6 +54,7 @@ class Hosts:
         if cohost is not None:
             cohostExist = True
             cohost=cohost.strip().replace(" ","")
+
         else:
             cohostExist = False
 
@@ -76,6 +78,7 @@ class Hosts:
                 #only first or last name since key has no whitespace
                 assert name == name_key, "just a check"
                 self.__handleOneName(name)
+                return
             case 2:
                 #formatted correctly, add to dict
                 host = self.__add(name, name_list, name_key)
@@ -92,7 +95,7 @@ class Hosts:
         type --> [(name, votes), (name, votes) ...] in descending order
         """
         
-        vote_counter = [(ele[1].name, ele[1].voteCount()) for ele in self.hosts.items()]
+        vote_counter = [(ele[1].name, ele[1].voteCount(), ele[1].getTopCoHost()) for ele in self.hosts.items()]
         vote_counter = sorted(vote_counter, key=lambda x: x[1], reverse=True)
         return vote_counter
 

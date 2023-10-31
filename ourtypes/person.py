@@ -30,11 +30,11 @@ class Person:
         self.cohosts[cohost] = self.cohosts.get(cohost, 0) + 1
     
     def getTopCoHost(self):
-        if ! self.cohosts.empty():
-            sortedCohosts = sorted(self.cohosts)
-            return sortedCohosts[0]
-        else:
+        if len(self.cohosts)==0:
             return None
+        else:
+            sortedCohosts = sorted(self.cohosts.items(), key=lambda item: item[1], reverse=True)
+            return sortedCohosts[0]
 
     #increment vote count
     def voteForMe(self):
@@ -61,7 +61,9 @@ class Person:
         return "Not Implemented"
     
     def __str__(self):
-        if ! self.cohosts.empty():
-            return f'Name: {self.name}, Votes: {self.votes}, Cohost: {self.getTopCoHost}'
+        if len(self.cohosts) == 0:
+            return f'Name: {self.name}, Votes: {self.votes}'
         else:
-            return f'Name: {self.name}, Votes: {self.votes}
+            ch = self.getTopCoHost()
+            return f'Name: {self.name}, Votes: {self.votes}, Cohost: {ch[0]}, Cohost Votes: {ch[1]}'
+            
