@@ -16,7 +16,9 @@ class Hosts:
         assert self.hosts.get(name_key) == None, "should NOT be in dict already"
 
         #ok you are good, add to dict
-        self.hosts[name_key] = Person(name)
+        host = Person(name)
+        self.hosts[name_key] = host
+        return host
 
     def __handleOneName(self, name):
         """
@@ -35,7 +37,7 @@ class Hosts:
                 host.maybeVoteForMe()
                 return #done
 
-    def vote_host(self, name):
+    def vote_host(self, name, cohost=None):
         """ Public method 
         - takes a host name as a string & checks for host name in dictionary of hosts
         - adds new host to dict with 1 vote OR increments number votes
@@ -44,10 +46,16 @@ class Hosts:
         """
         assert isinstance(name, str)
         #remove whitespace
-        name = name.strip().lower()
+        name = name.strip()
         #name key for dict - lowercase, no spaces
         name_key = name.replace(" ", "")
         
+        if cohost is not None:
+            cohostExist = True
+            cohost=cohost.strip().replace(" ","")
+        else:
+            cohostExist = False
+
         #first thing we will check is if it is already in our dict
         host = self.hosts.get(name_key)
         if host is not None:
@@ -55,6 +63,8 @@ class Hosts:
             assert isinstance(host, Person)
             #yay! just update it 
             host.voteForMe()
+            if cohostExist:
+                host.voteCoHost(cohost)
             return #done
 
         #hmmm... it is not in our dict
@@ -68,15 +78,15 @@ class Hosts:
                 self.__handleOneName(name)
             case 2:
                 #formatted correctly, add to dict
-                self.__add(name, name_list, name_key)
+                host = self.__add(name, name_list, name_key)
+                if cohostExist:
+                    host.voteCoHost(cohost)
                 return #done
             case _:
                 #here we would want to check for incorrect parsing if names aren't two words
                 return
     
-    def vote_cohost(self):
-        return 
-    
+
     def total_votes(self):
         """Return list sorted by vote counts
         type --> [(name, votes), (name, votes) ...] in descending order

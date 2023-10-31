@@ -23,6 +23,18 @@ class Person:
         self.name_list = name_list
         self.votes = 1
         self.name_key = "".join(self.name_list)
+        self.cohosts = {}
+
+    def voteCoHost(self, cohost):
+        assert isinstance(cohost, str)
+        self.cohosts[cohost] = self.cohosts.get(cohost, 0) + 1
+    
+    def getTopCoHost(self):
+        if ! self.cohosts.empty():
+            sortedCohosts = sorted(self.cohosts)
+            return sortedCohosts[0]
+        else:
+            return None
 
     #increment vote count
     def voteForMe(self):
@@ -49,4 +61,7 @@ class Person:
         return "Not Implemented"
     
     def __str__(self):
-        return f'Name: {self.name}, Votes: {self.votes}'
+        if ! self.cohosts.empty():
+            return f'Name: {self.name}, Votes: {self.votes}, Cohost: {self.getTopCoHost}'
+        else:
+            return f'Name: {self.name}, Votes: {self.votes}
