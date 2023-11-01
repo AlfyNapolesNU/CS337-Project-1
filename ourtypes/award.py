@@ -39,10 +39,12 @@ class Award:
         #handle cocontenders
 
 
-    def add_presenter(self, presenter, cocontenders):
+    def add_presenter(self, presenter, cocontenders=None):
         self.presenters.vote_contender(presenter)
         #handle cocontender
-        
+
+    def __str__(self):
+        return f"Award: {self.award_name}\nNominees: {self.nominees}\nWinners: {self.winners}\nPresenters: {self.presenters}\n"
         
 
         

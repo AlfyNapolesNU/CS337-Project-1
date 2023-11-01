@@ -226,6 +226,7 @@ did
 has
 graduate
 yeargoldenglobes
+goldenglobes
 vs
 when
 imagine
