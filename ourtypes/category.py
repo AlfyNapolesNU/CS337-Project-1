@@ -104,6 +104,12 @@ class Category:
         vote_counter = sorted(vote_counter, key=lambda x: x[1], reverse=True)
         return vote_counter
 
+    def get_winner(self):
+        vc = self.total_votes()
+        if self.contenders !={}:
+            return f"Top: {vc[0][0]}, Votes: {vc[0][1]}"
+        else: return ""
+    
     def __str__(self):
         return "\n".join([str(x) for x in self.contenders.values()])
         

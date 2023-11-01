@@ -30,24 +30,32 @@ class Award:
         self.winner_type = winner_type
         self.aliases = []
 
+    def check_name(self, name):
+        if self.winner_type == "Thing":
+            possible_names = 
+
     def add_alias(self, aliases):
+        aliases = [a.replace("  ", " ") for a in aliases]
         self.aliases += aliases
 
     def add_winner(self, winner):
-        self.winners.vote_contender(winner)
+        if winner != " ":
+            self.winners.vote_contender(winner)
     
 
-    def add_nominee(self, nominee, cocontenders):
-        self.nominees.vote_contender(nominee)
+    def add_nominee(self, nominee, cocontenders=None):
+        if nominee != " ":
+            self.nominees.vote_contender(nominee)
         #handle cocontenders
 
 
     def add_presenter(self, presenter, cocontenders=None):
-        self.presenters.vote_contender(presenter)
+        if presenter != " ":
+            self.presenters.vote_contender(presenter)
         #handle cocontender
 
     def __str__(self):
-        return f"Award: {self.award_name}\nNominees: {self.nominees}\nWinners: {self.winners}\nPresenters: {self.presenters}\n"
+        return f"Award: {self.award_name}\nNominees: {self.nominees}\nWinners: {self.winners.get_winner()}\nPresenters: {self.presenters.get_winner()}\n"
         
 
         

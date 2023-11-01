@@ -10,6 +10,8 @@ class Contender:
     def __init__(self, name):
         #check its a string
         assert isinstance(name, str), "name is not type str"
+        if name == " ":
+            return
         #don't want to do this twice
         assert name == name.strip().lower(), "strip and lowercase name pls!"
 
