@@ -32,7 +32,7 @@ class Category:
         i.e. Leo for Leonardo Decaprio
         """
         for k in self.contenders.keys():
-            if name in k:
+            if name in k or k in name:
                 #ok so some partial matching here, let's tenatively vote
                 contender = self.contenders.get(k)
                 #this better pass
