@@ -13,11 +13,10 @@ class Category:
 
     def __add(self, name, name_list, name_key):
         #we can delete later but just for checks
-        assert name == name.lower().strip(), "name should be lowercase!"
-        assert len(name_list) >= 2, "need at least first and last name"
-        assert name_key == name.replace(" ",""), "incorrect syntax for key, no spaces!"
+        #assert name == name.lower().strip(), "name should be lowercase!"
+        #assert len(name_list) >= 2, "need at least first and last name"
         assert self.contenders.get(name_key) == None, "should NOT be in dict already"
-
+        name=name.strip()
         #ok you are good, add to dict
         contender = Contender(name)
         self.contenders[name_key] = contender
@@ -32,7 +31,7 @@ class Category:
         i.e. Leo for Leonardo Decaprio
         """
         for k in self.contenders.keys():
-            if name in k or k in name:
+            if name in k:
                 #ok so some partial matching here, let's tenatively vote
                 contender = self.contenders.get(k)
                 #this better pass
@@ -52,6 +51,9 @@ class Category:
         assert isinstance(name, str)
         #name key for dict - lowercase, no spaces
         name_key = name.replace(" ", "")
+
+        if name.isspace() or name == "":
+            return
         
         if cocontender is not None:
             assert self.type != "winners"
@@ -80,9 +82,14 @@ class Category:
             case 1:
                 #only first or last name since key has no whitespace
                 assert name == name_key, "just a check"
+                if name.isspace() or name == "": return
                 found, contender = self.__handleOneName(name)
                 if cocontenderExist & found:
                     contender.voteCoContender(cocontender)
+                if not found:
+                    if name.isspace() or name == "": return
+                    contender = self.__add(name, name_list, name_key)
+                    
                 return
             case 2:
                 #formatted correctly, add to dict
@@ -92,6 +99,15 @@ class Category:
                 return #done
             case _:
                 #here we would want to check for incorrect parsing if names aren't two words
+                if len(name_list) > 4:
+                    return
+                found, contender = self.__handleOneName(name_key)
+                if cocontenderExist & found:
+                    contender.voteCoContender(cocontender)
+                if not found:
+                    if name.isspace() or name == "": return
+                    contender = self.__add(name, name_list, name_key)
+                    
                 return
     
 
@@ -100,7 +116,7 @@ class Category:
         type --> [(name, votes), (name, votes) ...] in descending order
         """
         
-        vote_counter = [(ele[1].name, ele[1].voteCount(), ele[1].getTopCoContender()) for ele in self.contenders.items()]
+        vote_counter = [(ele[1].name, ele[1].voteCount(), ele[1].getTopCoContender()) for ele in self.contenders.items() if ele[1].name != "" or not ele[1].name.isspace()]
         vote_counter = sorted(vote_counter, key=lambda x: x[1], reverse=True)
         return vote_counter
 

@@ -1,4 +1,5 @@
 from ourtypes.category import Category
+import itertools
 
 class Award:
     """
@@ -31,8 +32,13 @@ class Award:
         self.aliases = []
 
     def check_name(self, name):
+        l = []
         if self.winner_type == "Thing":
-            possible_names = 
+            possible_names = name.split(" ")
+            if len(possible_names) > 1: 
+                for i, j in itertools.combinations(range(len(possible_names) + 1), 2):
+                    l.append(" ".join(possible_names[i:j]))
+        return l
 
     def add_alias(self, aliases):
         aliases = [a.replace("  ", " ") for a in aliases]
@@ -41,11 +47,18 @@ class Award:
     def add_winner(self, winner):
         if winner != " ":
             self.winners.vote_contender(winner)
+            possible_names = self.check_name(winner)
+            for name in possible_names:
+                self.winners.vote_contender(name)
+                
     
 
     def add_nominee(self, nominee, cocontenders=None):
         if nominee != " ":
             self.nominees.vote_contender(nominee)
+            possible_names = self.check_name(nominee)
+            for name in possible_names:
+                self.nominees.vote_contender(name)
         #handle cocontenders
 
 
@@ -55,7 +68,7 @@ class Award:
         #handle cocontender
 
     def __str__(self):
-        return f"Award: {self.award_name}\nNominees: {self.nominees}\nWinners: {self.winners.get_winner()}\nPresenters: {self.presenters.get_winner()}\n"
+        return f"Award: {self.award_name}\nNominees: {self.nominees.get_winner()}\nWinners: {self.winners.get_winner()}\nPresenters: {self.presenters.get_winner()}\n"
         
 
         

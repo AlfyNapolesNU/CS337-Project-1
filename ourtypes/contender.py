@@ -10,18 +10,15 @@ class Contender:
     def __init__(self, name):
         #check its a string
         assert isinstance(name, str), "name is not type str"
-        if name == " ":
-            return
-        #don't want to do this twice
-        assert name == name.strip().lower(), "strip and lowercase name pls!"
-
+        name == name.strip()
+        
         #split by whitespace
         name_list = [x for x in name.split(" ")]
 
         #check we have first and last name 
-        assert len(name_list) >= 2, "pls format name as firstName lastName ..."
+        #assert len(name_list) >= 2, "pls format name as firstName lastName ..."
 
-        self.name = name
+        self.name = name.strip()
         self.name_list = name_list
         self.votes = 1
         self.name_key = "".join(self.name_list)
