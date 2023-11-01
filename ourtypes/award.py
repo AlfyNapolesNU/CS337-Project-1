@@ -17,7 +17,7 @@ class Award:
     voting is handled for you buy the category, contender types
     """
     
-
+    
 
     def __init__(self, award_name, winner_type=None):
         #dictionaries to store nominees, winners, presenters
@@ -28,10 +28,13 @@ class Award:
         #award name
         self.award_name = award_name
         self.winner_type = winner_type
+        self.aliases = []
+
+    def add_alias(self, aliases):
+        self.aliases += aliases
 
     def add_winner(self, winner):
         self.winners.vote_contender(winner)
-        
     
 
     def add_nominee(self, nominee, cocontenders):
