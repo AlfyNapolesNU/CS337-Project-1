@@ -1,6 +1,8 @@
 '''Version 0.4'''
 from get_hosts import get_all_hosts
 from get_winners import get_all_winners
+from preprocessing import preproccessing
+from get_awards import get_all_awards
 
 def get_hosts(year):
     '''Hosts is a list of one or more strings. Do NOT change the name
@@ -12,6 +14,7 @@ def get_awards(year):
     '''Awards is a list of strings. Do NOT change the name
     of this function or what it returns.'''
     # Your code here
+    awards = get_all_awards(tweets)
     return awards
 
 def get_nominees(year):
