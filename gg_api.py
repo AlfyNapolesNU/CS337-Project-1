@@ -1,9 +1,11 @@
 '''Version 0.4'''
+from get_hosts import get_all_hosts
+from get_winners import get_all_winners
 
 def get_hosts(year):
     '''Hosts is a list of one or more strings. Do NOT change the name
     of this function or what it returns.'''
-    # Your code here
+    hosts = get_all_hosts()
     return hosts
 
 def get_awards(year):
@@ -24,6 +26,10 @@ def get_winner(year):
     names as keys, and each entry containing a single string.
     Do NOT change the name of this function or what it returns.'''
     # Your code here
+    awards = get_all_winners()
+    winners = []
+    for v in awards.values():
+        winners = winners.append(v.winners.get_winner().name)
     return winners
 
 def get_presenters(year):
