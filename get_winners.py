@@ -172,7 +172,7 @@ def extra_winner_helper(tweet, v, spacy_model):
             v.add_nominee(entity.text)
     return
 
-def get_all_winners():
+def get_all_winners(tweets):
     awards = format_awards(awards_list)
     for k, v in awards.items():
         award_aliases(k,v)

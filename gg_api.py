@@ -3,6 +3,8 @@ from get_hosts import get_all_hosts
 from get_winners import get_all_winners
 from preprocessing import preproccessing
 from get_awards import get_all_awards
+import pandas as pd
+
 
 def get_hosts(year):
     '''Hosts is a list of one or more strings. Do NOT change the name
@@ -42,12 +44,13 @@ def get_presenters(year):
     # Your code here
     return presenters
 
-def pre_ceremony():
+def pre_ceremony(json_file):
     '''This function loads/fetches/processes any data your program
     will use, and stores that data in your DB or in a json, csv, or
     plain text file. It is the first thing the TA will run when grading.
     Do NOT change the name of this function or what it returns.'''
     # Your code here
+    tweets_df = preproccessing(json_file=json_file)
     print("Pre-ceremony processing complete.")
     return
 
@@ -58,6 +61,9 @@ def main():
     run when grading. Do NOT change the name of this function or
     what it returns.'''
     # Your code here
+    json_file = "gg2013.json"
+    processed_tweets = json_file.split(".")[0] + "_preprocessed.json"
+    get_hosts()
     return
 
 if __name__ == '__main__':

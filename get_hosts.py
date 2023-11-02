@@ -44,7 +44,9 @@ def hosts_helper(text, host_funcs, cohost_funcs, single_cohost_funcs, hosts):
             name = remove_common_words(m["name"], common_words_host_list)
             hosts.vote_contender(name)
             return name
+
     return None
+
 def get_hosts(tweets):
     hosts = Category(type="hosts") #our host storage object
     host_tweets = tweets[tweets["text"].str.contains("host")] #get tweets with the word host in it
@@ -67,21 +69,23 @@ def get_hosts(tweets):
     return hosts
 
 def get_all_hosts(tweets):
-    tweets = tweets[tweets["is_english"]] #only keep english tweets
-    del tweets["is_english"] #get rid of this row
+    tweets.drop(columns=['timestamp_ms', 'timestamp', 'is_english'], axis=1, inplace=True)
     tweets = tweets.dropna(subset=["text"])
-    del tweets["timestamp"]
+    tweets = tweets.map(lambda x: x.lower())
     h = get_hosts(tweets)
     vc = h.total_votes()
     top = vc[0]
     if top[2] is not None:
-        cohost = top[2]
+        cohost = top[2][0]
         if len(vc) > 10:
             possible_cohosts = [ele[0] for ele in vc]
         else:
             possible_cohosts = [ele[0] for ele in vc]
         for ch in possible_cohosts:
             if ch.replace(" ", "") == cohost:
-                return str(top[0]), str(ch)
+                return [str(top[0]), str(ch)]
+    elif top is not None:
+            return [top[0]]
+    else: return []
 
 
