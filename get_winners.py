@@ -16,32 +16,6 @@ def remove_rt(text):
         return remove_rt(" ".join(text[0:i]) + " " + " ".join(text[i+2:]))
     return " ".join(text)
 
-awards_list = ["best performance by an actor in a television series - comedy or musical", 
-          "best performance by an actor in a television series - drama",
-          "best performance by an actor in a motion picture - drama",
-          "best performance by an actress in a mini-series or motion picture made for television",
-          "best original song - motion picture", 
-          "best animated feature film",
-"best television series - comedy or musical",
-          "best performance by an actor in a mini-series or motion picture made for television", 
-          "best television series - drama", 
-          "best performance by an actress in a supporting role in a motion picture",
-          "best performance by an actor in a supporting role in a series, mini-series or motion picture made for television", 
-          "best motion picture - drama",
-          "best performance by an actor in a motion picture - comedy or musical", 
-          "cecil b. demille award", 
-          "best performance by an actress in a motion picture - drama",
-          "best performance by an actress in a television series - drama", 
-          "best original score - motion picture", 
-          "best mini-series or motion picture made for television",
-          "best performance by an actress in a motion picture - comedy or musical", 
-          "best motion picture - comedy or musical", 
-          "best performance by an actress in a supporting role in a series, mini-series or motion picture made for television",
-          "best performance by an actor in a supporting role in a motion picture",
-          "best foreign language film", 
-          "best performance by an actress in a television series - comedy or musical",
-          "best director - motion picture", "best screenplay - motion picture"]
-
 
 def format_awards(awards): 
     results = {}
@@ -62,16 +36,7 @@ def format_awards(awards):
     return results
         
 def award_aliases(key, val):
-    #remove performance by an
-    #television -> tv
-    #television series -> tv
-    #remove feature
-    #in a supporting role - supporting actress/actor 
-    #film -> movie
-    #motion picture -> movie
     key = key.replace(".", "")
-    #key = key.replace("made for television", "tv")
-    #key = key.replace("movie", "movie film")
     aliases = [key]
     if "performance by an" in key:
         aliases += list(map(lambda x: x.replace("performance by an", ""), aliases))
@@ -87,7 +52,8 @@ def award_aliases(key, val):
         aliases += list(map(lambda x: x.replace("feature", ""), aliases))
     if "original" in key:
         aliases += list(map(lambda x: x.replace("original", ""), aliases))
-    
+    if "series, mini-series or motion picture made for television" in key:
+        aliases += list(map(lambda x: x.replace("series, mini-series or motion picture made for television", "television series"), aliases))
     if "actor in a supporting role" in key:
         aliases += list(map(lambda x: x.replace("actor in a supporting role", "supporting actor"),aliases))
     elif "actress in a supporting role" in key:
@@ -111,7 +77,7 @@ def bm25_search(award_name, bm25, tweets):
 
 def winner_stop_words(tweet1, list2=False):
     tweet = str(tweet1)
-    toreplace = ["goldenglobes", "anclerts", "award for", "just", "goes to", "mr president", "love him", "for winning",
+    toreplace = ["goldenglobes", "recipient", "anclerts", "award for", "just", "goes to", "mr president", "love him", "for winning",
                  "has known", "finally", "yes", "at the", " is ", "first", " for ", "bazinga rs", "amen",
                  "no surpres", "well deserved", "no surprises", "this generation", " to ", "goldenglobe", "goldenglobes"]
     if list2: toreplace = ["golden", "live", "blog", "globes", "annual", "award for", "goldenglobes", "award", "awards"]
@@ -165,6 +131,7 @@ def winner_helper(tweet, v, won_funcs):
     return
 
 def extra_winner_helper(tweet, v, spacy_model):
+    tweet = winner_stop_words(tweet, list2=True)
     spacy_output = spacy_model(tweet)
     for entity in spacy_output.ents:
         if entity.label_ == "PERSON":
@@ -172,11 +139,12 @@ def extra_winner_helper(tweet, v, spacy_model):
             v.add_nominee(entity.text)
     return
 
-def get_all_winners(tweets):
+def get_all_winners(tweets, awards_list):
     awards = format_awards(awards_list)
     for k, v in awards.items():
         award_aliases(k,v)
-    tweets = tweets.map(remove_rt)
+    tweets = tweets.map(lambda x: remove_rt(x.lower()))
+    #tweets = tweets.map(lambda x: x.lower())
     corpus = tweets.to_numpy()
     tokenized_corpus = [str(tweet).split(" ") for tweet in corpus]
     bm25 = BM25Okapi(tokenized_corpus)
@@ -184,17 +152,16 @@ def get_all_winners(tweets):
 
     for k, v in awards.items():
         award_names = v.aliases
-        
         won_patterns = [f"{award} (?P<name>[a-z]+ ?[a-z-]+)" for award in award_names]
-        won_patterns += [f"(?P<name>[a-z]+ ?[a-z-]+)( wins? | on winning | has? won | got| wins the | ){award}" for award in award_names]
+        won_patterns += [f"(?P<name>[a-z]+ ?[a-z-]+)( wins? | recieves | recieved | on winning | has? won | got| wins the | ){award}" for award in award_names]
         won_funcs = [re.compile(ele) for ele in won_patterns]
         #presenter_patterns = [f"(?P<name>[a-z]+ ?[a-z]+)( presents? | presenting | are presenting ){award}" for award in award_names]
         #presenter_funcs = [re.compile(ele) for ele in presenter_patterns]
-        relevant = bm25_search(award_names[0], bm25=bm25, tweets=tweets)
+        relevant = bm25_search(award_names[0], bm25, tweets)
         if v.winner_type == "Person":
             r = relevant.map(partial(winner_helper, v=v, won_funcs=won_funcs))
             if v.winners.contenders == {}:
-                relevant = bm25_search(award_names[-1])
+                relevant = bm25_search(award_names[-1],  bm25, tweets)
                 r = relevant.map(partial(extra_winner_helper, v=v, spacy_model=spacy_model))
         else:
             won_patterns = [f"{award} [for ]?(?P<name>[a-z ]+)" for award in award_names]
@@ -202,3 +169,30 @@ def get_all_winners(tweets):
             won_funcs = [re.compile(ele) for ele in won_patterns]
             r = relevant.map(partial(winner_helper, v=v, won_funcs=won_funcs))
     return awards
+"""
+    for k, v in awards.items():
+        award_names = v.aliases
+        relevant = bm25_search(award_names[0], bm25=bm25, tweets=tweets)
+
+        if v.winner_type == "Person":
+            won_patterns = [f"{award} (?P<name>[A-Z][a-z]* [A-Z][a-z]*)" for award in award_names]
+            won_patterns += [f"(?P<name>[A-Z][a-z]* [A-Z][a-z]*)( wins? | on winning | has? won | got| wins the | ){award}" for award in award_names]
+            won_funcs = [re.compile(ele) for ele in won_patterns]
+            r = relevant.map(partial(winner_helper, v=v, won_funcs=won_funcs))
+            if v.winners.contenders == {}:
+                relevant = bm25_search(award_names[-1], bm25=bm25, tweets=tweets)
+                r = relevant.map(partial(extra_winner_helper, v=v, spacy_model=spacy_model))
+
+        #for things
+        else:
+            relevant = relevant.map(lambda x: x.lower())
+            won_patterns = [f"{award} (?P<name>[a-z]+ ?[a-z-]+)" for award in award_names]
+            won_patterns += [f"(?P<name>[a-z]+ ?[a-z-]+)( wins? | on winning | has? won | got| wins the | ){award}" for award in award_names]
+            won_funcs = [re.compile(ele) for ele in won_patterns]
+            won_patterns = [f"{award} [for ]?(?P<name>[a-z ]+)" for award in award_names]
+            won_patterns += [f"(?P<name>[a-z ]+)( wins? | on winning | has? won | got| wins the | ){award}" for award in award_names]
+            won_funcs = [re.compile(ele) for ele in won_patterns]
+            r = relevant.map(partial(winner_helper, v=v, won_funcs=won_funcs))
+            
+    return awards
+"""

@@ -1,55 +1,55 @@
-def get_all_awards(tweets):
-    preprocessed_tweets = "gg2013_preprocessed.json"
-    tweets = pd.read_json(preprocessed_tweets, orient='records', lines=True)[["text","is_english"]]
-    tweets = tweets[tweets["is_english"]] #only keep english tweets
-    del tweets["is_english"] #get rid of this row
-    tweets = tweets.dropna(subset=["text"])
-    def extract_person_entities(texts):
-        nlp = spacy.load("en_core_web_lg", disable=["tok2vec", "tagger", "parser", "attribute_ruler", "lemmatizer"])
-        removed_entities = []
-        # remove any string that isn't the correct part of speech 
-        missing_pos = {'AUX', 'CONJ', 'INTJ', 'NUM', 'PART', 'PRON', 'SCONJ', 'SYM', 'X'}
-        for text in texts:
-            doc = nlp(text.replace(" -", "").strip())
-            has_missing_pos = False  # flag to check if a text contains a missing part of speech
-            
-            # check if the text contains any of the missing parts of speech
-            for token in doc:
-                if token.pos_ in missing_pos:
-                    has_missing_pos = True
+import pandas as pd
+import spacy
+import re
+
+def extract_person_entities(texts):
+    nlp = spacy.load("en_core_web_lg", disable=["tok2vec", "tagger", "parser", "attribute_ruler", "lemmatizer"])
+    removed_entities = []
+    # remove any string that isn't the correct part of speech 
+    missing_pos = {'AUX', 'CONJ', 'INTJ', 'NUM', 'PART', 'PRON', 'SCONJ', 'SYM', 'X'}
+    for text in texts:
+        doc = nlp(text.replace(" -", "").strip())
+        has_missing_pos = False  # flag to check if a text contains a missing part of speech
+        
+        # check if the text contains any of the missing parts of speech
+        for token in doc:
+            if token.pos_ in missing_pos:
+                has_missing_pos = True
+                break
+        
+        # if the text contains a missing part of speech, skip it
+        if has_missing_pos:
+            # print("Skipped due to missing POS |", text)
+            continue
+        
+        if len(doc.ents) > 0:
+            for ent in doc.ents:
+                if ent.label_ == 'PERSON':
+                    if " - " + ent.text in text:
+                        new_text = text.split(" - " + ent.text, 1)[0]
+                    else:
+                        new_text = text.split(ent.text, 1)[0]
+                    # print(ent.text, "|", text, "|", new_text)
+                    removed_entities.append(new_text.strip())
                     break
-            
-            # if the text contains a missing part of speech, skip it
-            if has_missing_pos:
-                # print("Skipped due to missing POS |", text)
-                continue
-            
-            if len(doc.ents) > 0:
-                for ent in doc.ents:
-                    if ent.label_ == 'PERSON':
-                        if " - " + ent.text in text:
-                            new_text = text.split(" - " + ent.text, 1)[0]
-                        else:
-                            new_text = text.split(ent.text, 1)[0]
-                        # print(ent.text, "|", text, "|", new_text)
-                        removed_entities.append(new_text.strip())
-                        break
-                    # else:
-                        # print("no people |", ent.text, "|", text)
-                        # removed_entities.append(text)
-            else:
-                # print("no ents |", text.replace("-", "").strip())
-                removed_entities.append(text)
+                # else:
+                    # print("no people |", ent.text, "|", text)
+                    # removed_entities.append(text)
+        else:
+            # print("no ents |", text.replace("-", "").strip())
+            removed_entities.append(text)
 
-        # print(len(removed_entities))
-        return removed_entities
+    # print(len(removed_entities))
+    return removed_entities
 
-    def clean_and_sort_text(text):
-        # function to group award names, even if they are missing a key word or a "-"
-        words = re.sub(r"(motion|original|-)", "", text).split()
-        # sort words and join back into a string
-        return ' '.join(sorted(words))
+def clean_and_sort_text(text):
+    # function to group award names, even if they are missing a key word or a "-"
+    words = re.sub(r"(motion|original|-)", "", text).split()
+    # sort words and join back into a string
+    return ' '.join(sorted(words))
 
+
+def extract_award_names(df, text_column='text'):
     extracted_award_names = []
     # indentify which tweets might contain an award name
     keywords = ['best']
@@ -94,4 +94,5 @@ def get_all_awards(tweets):
 
     grouped_award_counts = grouped_award_counts.sort_values(by='Frequency', ascending=False).reset_index(drop=True)
 
-    return list(grouped_award_counts['Cleaned_Award_Name'])[:27]
+    return list(grouped_award_counts['Cleaned_Award_Name'])
+

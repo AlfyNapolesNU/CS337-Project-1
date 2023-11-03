@@ -45,6 +45,7 @@ class Award:
         self.aliases += aliases
 
     def add_winner(self, winner):
+        winner = winner.lower()
         if winner != " ":
             self.winners.vote_contender(winner)
             possible_names = self.check_name(winner)
@@ -54,6 +55,7 @@ class Award:
     
 
     def add_nominee(self, nominee, cocontenders=None):
+        nominee = nominee.lower()
         if nominee != " ":
             self.nominees.vote_contender(nominee)
             possible_names = self.check_name(nominee)
@@ -63,6 +65,7 @@ class Award:
 
 
     def add_presenter(self, presenter, cocontenders=None):
+        presenter = presenter.lower()
         if presenter != " ":
             self.presenters.vote_contender(presenter)
         #handle cocontender
