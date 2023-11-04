@@ -83,10 +83,10 @@ def bm25_search(award_name, bm25, tweets):
 
 def winner_stop_words(tweet1, list2=False):
     tweet = str(tweet1)
-    toreplace = ["goldenglobes", "recipient", "anclerts", "award for", "just", "goes to", "mr president", "love him", "for winning",
+    toreplace = ["goldenglobes", "golden", "globe", "globes", "recipient", "anclerts", "award for", "just", "goes to", "mr president", "love him", "for winning",
                  "has known", "finally", "yes", "at the", " is ", "first", " for ", "bazinga rs", "amen",
                  "no surpres", "well deserved", "no surprises", "this generation", " to ", "goldenglobe", "goldenglobes"]
-    if list2: toreplace = ["golden", "live", "blog", "globes", "annual", "award for", "goldenglobes", "award", "awards"]
+    if list2: toreplace = ["golden", "won", "for", "wins", "live", "blog", "globes", "globes", "annual", "award for", "goldenglobes", "award", "awards"]
     for ele in toreplace:
         tweet = tweet.replace(ele, " ")
     
@@ -103,14 +103,17 @@ def winner_stop_words(tweet1, list2=False):
         return winner_stop_words(tweet)
     
 def winner_helper(tweet, v, won_funcs):
-    if v.winner_type == "Person": tweet = winner_stop_words(tweet)
-    else: tweet = winner_stop_words(tweet, list2=True)
+    if v.winner_type == "Person": 
+        tweet = winner_stop_words(tweet)
+    else: 
+        tweet = winner_stop_words(tweet, list2=True)
         
     for f in won_funcs:
         m = f.findall(tweet)
         if m != []:
             if isinstance(m[0], tuple):
                 for ele in m[0]:
+                    ele = ele.lower()
                     if v.winner_type != "Person":
                         i = ele.find("by")
                         if i != -1:
@@ -118,8 +121,7 @@ def winner_helper(tweet, v, won_funcs):
                     else:
                         if "win" in ele or "won" in ele:
                             continue
-
-                    v.add_winner(ele)
+                    v.add_nominee(ele)
                     if v.winner_type != "Person": break
             else:
                 ele = m[0]
@@ -130,7 +132,7 @@ def winner_helper(tweet, v, won_funcs):
                 else:
                     if "win" in ele or "won" in ele:
                         continue
-                v.add_winner(ele)
+                v.add_nominee(ele) 
                 if v.winner_type != "Person": break
     return
 
@@ -139,15 +141,12 @@ def extra_winner_helper(tweet, v, spacy_model):
     spacy_output = spacy_model(tweet)
     for entity in spacy_output.ents:
         if entity.label_ == "PERSON":
-            v.add_winner(entity.text)
+            v.add_nominee(entity.text)
     return
 
-def get_all_winners(tweets, awards_list):
-    awards = format_awards(awards_list)
-    for k, v in awards.items():
-        award_aliases(k,v)
-    tweets = tweets.map(lambda x: remove_rt(x.lower()))
-    #tweets = tweets.map(lambda x: x.lower())
+def get_all_nominees(tweets, awards):
+    tweets = tweets["text"]
+    tweets = tweets.map(lambda x: remove_rt(x))
     corpus = tweets.to_numpy()
     tokenized_corpus = [str(tweet).split(" ") for tweet in corpus]
     bm25 = BM25Okapi(tokenized_corpus)
@@ -155,12 +154,15 @@ def get_all_winners(tweets, awards_list):
 
     for k, v in awards.items():
         award_names = v.aliases
-        won_patterns = [f"{award} (?P<name>[a-z]+ ?[a-z-]+)" for award in award_names]
-        won_patterns += [f"(?P<name>[a-z]+ ?[a-z-]+)( wins? | recieves | recieved | on winning | has? won | got| wins the | ){award}" for award in award_names]
+        won_patterns = [f"{award} nominee (?P<name1>[A-Z][a-z]* [A-Z][a-z-]*)" for award in award_names]
+        won_patterns += [f"(?P<name1>[A-Z][a-z]* [A-Z][a-z-]*)( nominated for | should've won | nominee for ){award}" for award in award_names]
+        won_patterns += [f"(?P<name1>[A-Z][a-z]* [A-Z][a-z-]*)( wins | didn't win | lost | ){award}" for award in award_names]
+        won_patterns += [f"(?P<name>[a-z]+ ?[a-z-]+)( nominated for | should've won| nominee for ) {award}" for award in award_names]
+        won_patterns += [f"(?P<name>[a-z]+ ?[a-z-]+)( wins | didn't win | lost |){award}" for award in award_names]
         won_funcs = [re.compile(ele) for ele in won_patterns]
         #presenter_patterns = [f"(?P<name>[a-z]+ ?[a-z]+)( presents? | presenting | are presenting ){award}" for award in award_names]
         #presenter_funcs = [re.compile(ele) for ele in presenter_patterns]
-        relevant = bm25_search(award_names[0], bm25, tweets)
+        relevant = bm25_search(award_names[-1], bm25, tweets)
         if v.winner_type == "Person":
             r = relevant.map(partial(winner_helper, v=v, won_funcs=won_funcs))
             if v.winners.contenders == {}:
@@ -168,7 +170,7 @@ def get_all_winners(tweets, awards_list):
                 r = relevant.map(partial(extra_winner_helper, v=v, spacy_model=spacy_model))
         else:
             won_patterns = [f"{award} [for ]?(?P<name>[a-z ]+)" for award in award_names]
-            won_patterns += [f"(?P<name>[a-z ]+)( wins? | on winning | has? won | got| wins the | ){award}" for award in award_names]
+            won_patterns += [f"(?P<name>[a-z ]+)( wins | didn't win | lost | nominated for | should've won | nominee for| ){award}" for award in award_names]
             won_funcs = [re.compile(ele) for ele in won_patterns]
             r = relevant.map(partial(winner_helper, v=v, won_funcs=won_funcs))
     return awards
