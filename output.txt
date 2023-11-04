@@ -1,0 +1,136 @@
+Hosts: amy poehler, tina fey
+
+Award: best performance by an actor in a television series - comedy or musical
+Presenters: 
+Nominees: don cheadle, 
+Winner: don cheadle
+
+Award: best performance by an actor in a television series - drama
+Presenters: 
+Nominees: 
+Winner: damian lewis
+
+Award: best performance by an actor in a motion picture - drama
+Presenters: 
+Nominees: day lewis, 
+Winner: daniel day-lewis
+
+Award: best performance by an actress in a mini-series or motion picture made for television
+Presenters: 
+Nominees: 
+Winner: julianne moore
+
+Award: best original song - motion picture
+Presenters: 
+Nominees: kyfall, 
+Winner: skyfall
+
+Award: best animated feature film
+Presenters: 
+Nominees: rave, rave the, the, rave takes home the, 
+Winner: brave
+
+Award: best television series - comedy or musical
+Presenters: jay leno, jimmy fallon
+Nominees: girls, 
+Winner: girls
+
+Award: best performance by an actor in a mini-series or motion picture made for television
+Presenters: 
+Nominees: 
+Winner: kevin costner
+
+Award: best television series - drama
+Presenters: 
+Nominees: ad should have, omeland, ad, ad should, 
+Winner: homeland
+
+Award: best performance by an actress in a supporting role in a motion picture
+Presenters: 
+Nominees: 
+Winner: anne hathaway
+
+Award: best performance by an actor in a supporting role in a series, mini-series or motion picture made for television
+Presenters: 
+Nominees: 
+Winner: ed harris
+
+Award: best motion picture - drama
+Presenters: 
+Nominees: rgo producers with, rgo, that entrance, at the, 
+Winner: argo
+
+Award: best performance by an actor in a motion picture - comedy or musical
+Presenters: 
+Nominees: hugh jackman, 
+Winner: hugh jackman
+
+Award: cecil b. demille award
+Presenters: 
+Nominees: 
+Winner: jodie foster
+
+Award: best performance by an actress in a motion picture - drama
+Presenters: 
+Nominees: jessica chastain, yent the, 
+Winner: jessica chastain
+
+Award: best performance by an actress in a television series - drama
+Presenters: nathan fillion, lea michele
+Nominees: 
+Winner: claire danes
+
+Award: best original score - motion picture
+Presenters: jason statham, jennifer lopez
+Nominees: linton, ovak in years, ild not even nominated, anna, 
+Winner: life of pi
+
+Award: best mini-series or motion picture made for television
+Presenters: 
+Nominees: game change, hange, change, 
+Winner: game change
+
+Award: best performance by an actress in a motion picture - comedy or musical
+Presenters: 
+Nominees: jennifer lawrence, 
+Winner: jennifer lawrence
+
+Award: best motion picture - comedy or musical
+Presenters: 
+Nominees: iserables, flawless film bitches very, booyah flawless film bitches, bitches very, 
+Winner: les miserables
+
+Award: best performance by an actress in a supporting role in a series, mini-series or motion picture made for television
+Presenters: dennis quaid, kerry washington
+Nominees: 
+Winner: maggie smith
+
+Award: best performance by an actor in a supporting role in a motion picture
+Presenters: bradley cooper, kate hudson
+Nominees: 
+Winner: christoph waltz
+
+Award: best foreign language film
+Presenters: sylvester stallone, arnold schwarzenegger
+Nominees: 
+Winner: amour
+
+Award: best performance by an actress in a television series - comedy or musical
+Presenters: 
+Nominees: 
+Winner: lena dunham
+
+Award: best director - motion picture
+Presenters: 
+Nominees: ben affleck, amato argo, yes tarentino, ben afflect, 
+Winner: ben affleck
+
+Award: best screenplay - motion picture
+Presenters: robert pattinson, amanda seyfried
+Nominees: nchained, 
+Winner: quentin tarantino djangounchained
+
+Best Dressed: zooey deschanel
+Second Best Dressed: tina fey
+Worst Dressed: lucy lui
+Second Worst Dressed: jessica chastain
