@@ -7,6 +7,8 @@ from get_dressed import get_dressed
 from get_nominees import get_all_nominees
 import pandas as pd
 
+import json
+
 official_awards_list = ["best performance by an actor in a television series - comedy or musical", 
           "best performance by an actor in a television series - drama",
           "best performance by an actor in a motion picture - drama",
@@ -42,7 +44,7 @@ hosts = get_all_hosts(tweets_df)
 
 #call to get awards 
 award_names = extract_award_names(tweets_df)
-awards = award_names[:27]
+award_names = award_names[:27]
 
 #call to get winners
 awards = get_all_winners(tweets_df, official_awards_list)
@@ -78,4 +80,22 @@ def human_readble(hosts, awards, bestANDworst):
 
     f.close()
 
+def to_json(hosts, award_names, awards):
+    d = {}
+    d["Hosts"] = hosts
+    d["award_names"] = award_names
+    for v in awards.values():
+        key = v.award_name
+        dd = {}
+        dd["Presenters"] = v.get_presenters().split(", ")
+        dd["Nominees"] = v.get_top_nominees().split(", ")
+        dd["Winner"] = v.winners.get_winner()
+        d[key] = dd
+    
+    json_object = json.dumps(d, indent=4)
+    with open("output.json", "w") as outfile:
+        outfile.write(json_object)
+
+
 human_readble(hosts, awards, bestANDworst)
+to_json(hosts,award_names, awards)

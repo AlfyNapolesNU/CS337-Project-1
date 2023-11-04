@@ -123,7 +123,7 @@ class Category:
     def get_winner(self):
         vc = self.total_votes()
         if self.contenders !={}:
-            return f"Top: {vc[0][0]}, Votes: {vc[0][1]}"
+            return f"{vc[0][0]}"
         else: return ""
     
     def __str__(self):

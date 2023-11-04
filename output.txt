@@ -3,132 +3,132 @@ Hosts: amy poehler, tina fey
 Award: best performance by an actor in a television series - comedy or musical
 Presenters: 
 Nominees: don cheadle, 
-Winner: Top: don cheadle, Votes: 16
+Winner: don cheadle
 
 Award: best performance by an actor in a television series - drama
 Presenters: 
 Nominees: 
-Winner: Top: damian lewis, Votes: 34
+Winner: damian lewis
 
 Award: best performance by an actor in a motion picture - drama
 Presenters: 
 Nominees: day lewis, 
-Winner: Top: daniel day-lewis, Votes: 43
+Winner: daniel day-lewis
 
 Award: best performance by an actress in a mini-series or motion picture made for television
 Presenters: 
 Nominees: 
-Winner: Top: julianne moore, Votes: 7
+Winner: julianne moore
 
 Award: best original song - motion picture
 Presenters: 
 Nominees: kyfall, 
-Winner: Top: skyfall, Votes: 126
+Winner: skyfall
 
 Award: best animated feature film
 Presenters: 
 Nominees: rave, rave the, the, rave takes home the, 
-Winner: Top: brave, Votes: 98
+Winner: brave
 
 Award: best television series - comedy or musical
 Presenters: jay leno, jimmy fallon
 Nominees: girls, 
-Winner: Top: girls, Votes: 42.5
+Winner: girls
 
 Award: best performance by an actor in a mini-series or motion picture made for television
 Presenters: 
 Nominees: 
-Winner: Top: kevin costner, Votes: 5
+Winner: kevin costner
 
 Award: best television series - drama
 Presenters: 
 Nominees: ad should have, omeland, ad, ad should, 
-Winner: Top: homeland, Votes: 47
+Winner: homeland
 
 Award: best performance by an actress in a supporting role in a motion picture
 Presenters: 
 Nominees: 
-Winner: Top: anne hathaway, Votes: 188
+Winner: anne hathaway
 
 Award: best performance by an actor in a supporting role in a series, mini-series or motion picture made for television
 Presenters: 
 Nominees: 
-Winner: Top: ed harris, Votes: 110
+Winner: ed harris
 
 Award: best motion picture - drama
 Presenters: 
 Nominees: rgo producers with, rgo, that entrance, at the, 
-Winner: Top: argo, Votes: 127.0
+Winner: argo
 
 Award: best performance by an actor in a motion picture - comedy or musical
 Presenters: 
 Nominees: hugh jackman, 
-Winner: Top: hugh jackman, Votes: 38
+Winner: hugh jackman
 
 Award: cecil b. demille award
 Presenters: 
 Nominees: 
-Winner: Top: jodie foster, Votes: 26
+Winner: jodie foster
 
 Award: best performance by an actress in a motion picture - drama
 Presenters: 
 Nominees: jessica chastain, yent the, 
-Winner: Top: jessica chastain, Votes: 69
+Winner: jessica chastain
 
 Award: best performance by an actress in a television series - drama
 Presenters: nathan fillion, lea michele
 Nominees: 
-Winner: Top: claire danes, Votes: 51
+Winner: claire danes
 
 Award: best original score - motion picture
 Presenters: jason statham, jennifer lopez
 Nominees: linton, ovak in years, ild not even nominated, anna, 
-Winner: Top: life of pi, Votes: 163.0
+Winner: life of pi
 
 Award: best mini-series or motion picture made for television
 Presenters: 
 Nominees: game change, hange, change, 
-Winner: Top: game change, Votes: 29.5
+Winner: game change
 
 Award: best performance by an actress in a motion picture - comedy or musical
 Presenters: 
 Nominees: jennifer lawrence, 
-Winner: Top: jennifer lawrence, Votes: 28
+Winner: jennifer lawrence
 
 Award: best motion picture - comedy or musical
 Presenters: 
 Nominees: iserables, flawless film bitches very, booyah flawless film bitches, bitches very, 
-Winner: Top: les miserables, Votes: 181.5
+Winner: les miserables
 
 Award: best performance by an actress in a supporting role in a series, mini-series or motion picture made for television
 Presenters: dennis quaid, kerry washington
 Nominees: 
-Winner: Top: maggie smith, Votes: 20
+Winner: maggie smith
 
 Award: best performance by an actor in a supporting role in a motion picture
 Presenters: bradley cooper, kate hudson
 Nominees: 
-Winner: Top: christoph waltz, Votes: 88
+Winner: christoph waltz
 
 Award: best foreign language film
 Presenters: sylvester stallone, arnold schwarzenegger
 Nominees: 
-Winner: Top: amour, Votes: 58
+Winner: amour
 
 Award: best performance by an actress in a television series - comedy or musical
 Presenters: 
 Nominees: 
-Winner: Top: lena dunham, Votes: 18
+Winner: lena dunham
 
 Award: best director - motion picture
 Presenters: 
 Nominees: ben affleck, amato argo, yes tarentino, ben afflect, 
-Winner: Top: ben affleck, Votes: 58
+Winner: ben affleck
 
 Award: best screenplay - motion picture
 Presenters: robert pattinson, amanda seyfried
 Nominees: nchained, 
-Winner: Top: quentin tarantino djangounchained, Votes: 59.5
+Winner: quentin tarantino djangounchained
 
 Best Dressed: zooey deschanel
 Second Best Dressed: tina fey
